@@ -5,7 +5,7 @@ require_once "includes/connection.php";
 
 if (isset($_POST['submit'])){
     $email = mysqli_escape_string($con, $_POST['email']);
-    $password   = mysqli_escape_string ($con, $_POST['password']); // real_escape_string is not needed because of hash later.
+    $password   = $_POST['password']; // real_escape_string is not needed because of hash later.
 
     $errors = [];
     $message = "";
@@ -80,7 +80,7 @@ if (isset($_POST['submit'])){
         <span class="error"><?= isset($errors['password']) ? $errors['password'] : ''; ?></span>
 
         <button class="btn btn-lg btn-primary btn-block" type="submit" name="submit">Inloggen</button>
-        <div id="register"><a href="register.php"><i class="fa fa-plus" aria-hidden="true"></i> &nbsp;Nieuw account aanmaken</a></div>
+<!--        <div id="register"><a href="register.php"><i class="fa fa-plus" aria-hidden="true"></i> &nbsp;Nieuw account aanmaken</a></div>-->
     </form>
 </section>
 </body>
