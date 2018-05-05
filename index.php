@@ -98,7 +98,7 @@ if (isset($_POST['submit'])) {
 
         <div class="row">
             <div class="col-lg-12">
-                <p id="intro">Bij Assie is een vintage winkel in een huiselijke sfeer, waar je een vers gezet bakje koffie of thee kunt drinken met huisgebakken taart. Daarnaast verkoop Bij Assie de meest mooie vintage en industriële meubelen. Alles wat je ziet Bij Assie is te koop.</p>
+                <p id="intro">Bij Assie is een vintage winkel in een huiselijke sfeer, waar je een vers gezet bakje koffie of thee kunt drinken met huisgebakken taart. Daarnaast verkoopt Bij Assie de meest mooie vintage en industriële meubelen. Alles wat je ziet Bij Assie is te koop.</p>
             </div>
         </div>
 
@@ -134,7 +134,7 @@ if (isset($_POST['submit'])) {
             <div class="col-lg-4">
                 <img src="img/onze-winkel-06.png">
                 <h4>Workshop</h4>
-                <p>Twee keer in de maand kun je je inschrijven voor Koffie en Thee workshops.</p>
+                <p>Twee keer in de maand kun je je inschrijven voor koffie en thee workshops.</p>
             </div>
             <img src="img/onze-winkel.png">
         </div>
