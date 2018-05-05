@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 if(!isset($_SESSION['email'])) {
     // redirect to login page
     header('Location: login.php');
@@ -82,43 +83,9 @@ mysqli_close($con);
     <title>Bij Assie | reservering aanpassen</title>
     <meta charset="utf-8"/>
     <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.admin.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="fonts/font-awesome/css/font-awesome.min.css">
-    <style>
-        body {
-            background-image: url(img/reserveringen-background-bij-assie.png) ;
-            background-position: center center;
-            background-repeat:  no-repeat;
-            background-attachment: fixed;
-            background-size:  cover;
-            background-color: #999;
-            font-family: 'Source Sans Pro', sans-serif;
-            font-size:14px;
-            line-height:1.4;
-        }
-        .container {
-            padding:0;
-            min-height:400px;
-            background-color:rgba(255, 255, 255, 0.66);
-        }
-        label {
-            color:#639ba7;
-        }
-        a {
-            color:black;
-            font-weight:bold;
-        }
-        a:hover {
-            color:#639ba7;
-            text-decoration:none;
-        }
-        .errors{
-            color:red;
-        }
-        #special {
-            margin-top:7px;
-        }
-    </style>
 </head>
 <body>
 
@@ -198,7 +165,7 @@ mysqli_close($con);
                 </div>
                 <div class="row">
                     <div class="col-12">
-                        <a href="reserveringen.php"><i class="fa fa-angle-left" aria-hidden="true"></i> Terug naar reserverings overzicht</a>
+                        <a href="reserveringen.php" class="back"><i class="fa fa-angle-left" aria-hidden="true"></i> Terug naar reserverings overzicht</a>
                     </div>
                 </div>
             </form>
@@ -207,3 +174,4 @@ mysqli_close($con);
 </section><!-- END section create -->
 </body>
 </html>
+
