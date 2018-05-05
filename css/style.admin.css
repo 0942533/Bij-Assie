@@ -1,0 +1,47 @@
+section#login {
+    width:350px;
+    margin:0 auto;
+    padding-top:100px;
+}
+#img-logo {
+    width:100%;
+    text-align: center;
+    margin-bottom:11px;
+}
+img {
+    width:60%;
+}
+a, a:hover {
+    color:white;
+    text-decoration:none;
+    text-align:center;
+}
+.form-control {
+    margin-bottom:5px;
+}
+#register {
+    text-align: center;
+}
+span.error {
+    color:red;
+    line-height:1.4;
+}
+button.btn.btn-lg.btn-primary.btn-block {
+    background-color:#639ba7;
+    font-size: 1rem;
+    line-height: 1.25;
+    margin-bottom:20px;
+    border-color:rgba(255, 255, 255, 0.52);
+    font-weight:bold;
+}
+button.btn.btn-lg.btn-primary.btn-block:hover {
+    background-color:#588993;
+}
+
+/*---------------------------- Media queries ---------------------------- */
+
+@media (max-width: 400px) {
+    section#login {
+        width:95%;
+    }
+}
