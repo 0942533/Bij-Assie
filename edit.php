@@ -174,4 +174,3 @@ mysqli_close($con);
 </section><!-- END section create -->
 </body>
 </html>
-
