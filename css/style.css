@@ -225,3 +225,13 @@ section#contact {
     color:#639ba7;
     margin-top:-30px;
 }
+
+span.error {
+    float:left;
+}
+
+.thankyou {
+    width:20px;
+    background-color:green;
+    height:20px;
+}

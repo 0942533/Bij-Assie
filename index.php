@@ -2,42 +2,103 @@
 // Require database in this file
 require_once 'includes/connection.php';
 
-// check if form is posted
+$thankyou = "";
+
+// Check if form is posted
 if (isset($_POST['submit'])) {
+    // Get form data
     $soort_workshop = mysqli_escape_string ($con, $_POST['soort_workshop']);
     $aantal_personen = mysqli_escape_string ($con, $_POST['aantal_personen']);
     $datum = mysqli_escape_string ($con, $_POST['datum']);
     $tijdstip = mysqli_escape_string ($con, $_POST['tijdstip']);
     $speciale_verzoeken = mysqli_escape_string ($con, $_POST['speciale_verzoeken']);
     $reserveringsnaam = mysqli_escape_string ($con, $_POST['reserveringsnaam']);
-    $email = mysqli_escape_string ($con, $_POST ['email']);
+    $emailClient = mysqli_escape_string ($con, $_POST ['email']);
     $telefoonnummer = mysqli_escape_string ($con, $_POST ['telefoonnummer']);
 
     $errors = [];
     if(empty($datum)) {
         $errors['datum'] = 'Kies een datum';
     }
-    if(empty($reserveringsnaam)) {
-        $errors['reserveringsnaam'] = 'Vul je reserveringsnaam in';
+    if(!preg_match("/^[a-zA-Z ]*$/", $reserveringsnaam)) {
+        $errors['reserveringsnaam'] = "Alleen letters en spaties zijn toegestaan";
     }
-    if(empty($email)) {
-        $errors['email'] = 'Vul je e-mailadres in';
+    if(empty($reserveringsnaam)) {
+        $errors['reserveringsnaam'] = 'Vul een reserveringsnaam in';
+    }
+    if(!filter_var($emailClient, FILTER_VALIDATE_EMAIL)) {
+        $errors['email'] = 'Het ingevulde e-mailadres is onjuist';
+    }
+    if(empty($emailClient)) {
+        $errors['email'] = 'Vul een e-mailadres in';
     }
     if(empty($telefoonnummer)) {
-        $errors['telefoonnummer'] = 'Vul je telefoonnummer in';
+        $errors['telefoonnummer'] = 'Vul een telefoonnummer in';
     }
 
-// if everything is filled in, database can be checked
+// If there are no errors, data can be inserted into the database
     if(empty($errors)) {
-        $query = "INSERT INTO informatie (soort_workshop, aantal_personen,datum, tijdstip, speciale_verzoeken, reserveringsnaam, email, telefoonnummer) VALUES ('$soort_workshop','$aantal_personen','$datum','$tijdstip','$speciale_verzoeken','$reserveringsnaam','$email','$telefoonnummer')";
-
+        $query = "INSERT INTO informatie (soort_workshop, aantal_personen,datum, tijdstip, speciale_verzoeken, reserveringsnaam, email, telefoonnummer) VALUES ('$soort_workshop','$aantal_personen','$datum','$tijdstip','$speciale_verzoeken','$reserveringsnaam','$emailClient','$telefoonnummer')";
         $result = mysqli_query($con, $query);
 
         $errors = [];
 
+        $to = '0942533@hr.nl';
+        $subject = 'Contact Form Submit';
+        $message = "Workshop: ". $soort_workshop. "\n"."Datum: ".$datum."\n"."Tijdstip: ".$tijdstip."\n"."Aantal personen: ".$aantal_personen."\n"."Speciale verzoeken: ".$speciale_verzoeken."\n"."\n"."Reserveringsnaam: ". $reserveringsnaam. "\n". "Email: ". $emailClient. "\n". "Telefoonnummer: "."$telefoonnummer"."\n";
+        $headers = "From: ". $emailClient;
+
+        if (mail($to, $subject, $message, $headers)) {
+            $test = "Hallo " . $reserveringsnaam . ", bedankt voor het verzenden van je bericht. Wij zullen zo snel mogelijk contact met je opnemen";
+        } else {
+            echo "Sorry, er is iets mis gegaan bij het reserveren. Probeer het opnieuw.";
+        }
+
         if ($query) {
             header ("Location: index.php" );
             exit;
+        }
+    }
+}
+
+// Check if form is posted
+if (isset($_POST["contactSubmit"])) {
+    //Get Form Data
+    $naam = mysqli_escape_string($con, $_POST['naam']);
+    $emailSec = mysqli_escape_string($con, $_POST['emailSec']);
+    $onderwerp = mysqli_escape_string($con, $_POST['onderwerp']);
+    $bericht = mysqli_escape_string($con, $_POST['bericht']);
+
+    $errormessage = [];
+    if (!preg_match("/^[a-zA-Z ]*$/", $naam)) {
+        $errormessage['naam'] = "Alleen letters en spaties zijn toegestaan";
+    }
+    if (empty($naam)) {
+        $errormessage['naam'] = 'Vul je naam in';
+    }
+    if (!filter_var($emailSec, FILTER_VALIDATE_EMAIL)) {
+        $errormessage['emailSec'] = 'Het ingevulde e-mailadres is onjuist';
+    }
+    if (empty($emailSec)) {
+        $errormessage['emailSec'] = 'Vul je e-mailadres in';
+    }
+    if (empty($onderwerp)) {
+        $errormessage['onderwerp'] = 'Vul een onderwerp in';
+    }
+    if (empty($bericht)) {
+        $errormessage['bericht'] = 'Vul een bericht in';
+    }
+
+    if (empty($errormessage)) {
+        $to1 = '0942533@hr.nl';
+        $subject1 = 'Contact Form Submit';
+        $message1 = "Naam: " . $naam . "\n" . "E-mail: " . $emailSec . "\n" . "Onderwerp: " . $onderwerp . "\n" . "Bericht: " . $bericht;
+        $headers1 = "From: " . $emailSec;
+
+        if (mail($to1, $subject1, $message1, $headers1)) {
+            echo "Hallo " . $naam . ", bedankt voor het verzenden van je bericht. Wij zullen zo snel mogelijk contact met je opnemen";
+        } else {
+            echo "Sorry, er is iets mis gegaan bij het verzenden van uw bericht. Probeer het opnieuw.";
         }
     }
 }
@@ -278,7 +339,7 @@ if (isset($_POST['submit'])) {
                 </div>
                 <div class="col-6">
                     <label for="email">Email:</label>
-                    <input type="email" name="email" class="form-control" id="email" value="<?php if(isset($email)){echo $email;}?>" placeholder="Typ hier uw e-mailadres...">
+                    <input type="text" name="email" class="form-control" id="email" value="<?php if(isset($emailClient)){echo $emailClient;}?>" placeholder="Typ hier uw e-mailadres...">
                     <span class="error"><?= isset($errors['email']) ? $errors['email'] : ''; ?></span>
                 </div>
             </div>
@@ -310,24 +371,30 @@ if (isset($_POST['submit'])) {
                 <p id="intro">Heb je vragen of opmerkingen? Neem gerust contact op met mij door onderstaand formulier in te vullen of bel 078-1234567</p>
             </div>
         </div>
+
         <form action="" method="post">
             <div class="row">
+                <?= "<div class='message'>".$thankyou."</div>"?>
                 <div class="col-lg-6">
-                    <input type="text" name="naam" class="form-control" id="email" placeholder="Naam*"><br/>
+                    <input type="text" name="naam" class="form-control" id="email" value="<?php if(isset($naam)){echo $naam;}?>" placeholder="Naam*">
+                    <span class="error"><?= isset($errormessage['naam']) ? $errormessage ['naam'] : ''; ?></span>
                 </div>
                 <div class="col-lg-6">
-                    <input type="text" name="email-sec" class="form-control" id="email" placeholder="E-mail*">
+                    <input type="text" name="emailSec" class="form-control" id="email" value="<?php if(isset($emailSec)){echo $emailSec;}?>" placeholder="E-mail*">
+                    <span class="error"><?= isset($errormessage['emailSec']) ? $errormessage ['emailSec'] : ''; ?></span>
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-lg-12">
-                    <input type="text" name="onderwerp" class="form-control" id="email" placeholder="Onderwerp*"><br/>
+                    <input type="text" name="onderwerp" class="form-control" id="email" value="<?php if(isset($onderwerp)){echo $onderwerp;}?>" placeholder="Onderwerp*">
+                    <span class="error"><?= isset($errormessage['onderwerp']) ? $errormessage ['onderwerp'] : ''; ?></span>
                 </div>
             </div>
             <div class="row">
                 <div class="col-lg-12">
-                    <textarea name="speciale_verzoeken" class="form-control" rows="5" id="comment" placeholder="Bericht*"></textarea>
+                    <input type="text" name="bericht" class="form-control" id="email" value="<?php if(isset($bericht)){echo $bericht;}?>" placeholder="Bericht*">
+                    <span class="error"><?= isset($errormessage['bericht']) ? $errormessage ['bericht'] : ''; ?></span>
                 </div>
             </div>
 
@@ -336,11 +403,11 @@ if (isset($_POST['submit'])) {
                     <p id="intro">De velden met een * zijn verplichte velden</p>
                 </div>
                 <div class="col-lg-6">
-                    <input id="reserve" type="submit" value="Verzenden"/>
+                    <input id="reserve" name="contactSubmit" type="submit" value="Verzenden"/>
                 </div>
             </div>
         </form>
-    </div>
+    </div><!-- END container -->
 </section><!-- END section contact -->
 
 <!-- Bootstrap core JavaScript -->
