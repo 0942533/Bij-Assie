@@ -2,6 +2,8 @@
 // Require database in this file
 require_once 'includes/connection.php';
 
+$thankyou = "";
+
 // Check if form is posted
 if (isset($_POST['submit'])) {
     // Get form data
@@ -44,6 +46,48 @@ if (isset($_POST['submit'])) {
         if ($query) {
             header("Location: index.php");
             exit;
+        }
+    }
+
+    // Check if form is posted
+    if (isset($_POST["contactSubmit"])) {
+        //Get Form Data
+        $naam = mysqli_escape_string($con, $_POST['naam']);
+        $emailSec = mysqli_escape_string($con, $_POST['emailSec']);
+        $onderwerp = mysqli_escape_string($con, $_POST['onderwerp']);
+        $bericht = mysqli_escape_string($con, $_POST['bericht']);
+
+        $errormessage = [];
+        if (!preg_match("/^[a-zA-Z ]*$/", $naam)) {
+            $errormessage['naam'] = "Alleen letters en spaties zijn toegestaan";
+        }
+        if (empty($naam)) {
+            $errormessage['naam'] = 'Vul je naam in';
+        }
+        if (!filter_var($emailSec, FILTER_VALIDATE_EMAIL)) {
+            $errormessage['emailSec'] = 'Het ingevulde e-mailadres is onjuist';
+        }
+        if (empty($emailSec)) {
+            $errormessage['emailSec'] = 'Vul je e-mailadres in';
+        }
+        if (empty($onderwerp)) {
+            $errormessage['onderwerp'] = 'Vul een onderwerp in';
+        }
+        if (empty($bericht)) {
+            $errormessage['bericht'] = 'Vul een bericht in';
+        }
+
+        if (empty($errormessage)) {
+            $to1 = '0942533@hr.nl';
+            $subject1 = 'Contact Form Submit';
+            $message1 = "Naam: " . $naam . "\n" . "E-mail: " . $emailSec . "\n" . "Onderwerp: " . $onderwerp . "\n" . "Bericht: " . $bericht;
+            $headers1 = "From: " . $emailSec;
+
+            if (mail($to1, $subject1, $message1, $headers1)) {
+                echo "Hallo " . $naam . ", bedankt voor het verzenden van je bericht. Wij zullen zo snel mogelijk contact met je opnemen";
+            } else {
+                echo "Sorry, er is iets mis gegaan bij het verzenden van uw bericht. Probeer het opnieuw.";
+            }
         }
     }
 }
