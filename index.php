@@ -41,6 +41,8 @@ if (isset($_POST['submit'])) {
         $query = "INSERT INTO informatie (soort_workshop, aantal_personen,datum, tijdstip, speciale_verzoeken, reserveringsnaam, email, telefoonnummer) VALUES ('$workshops','$numberPersons','$date','$time','$specialRequests','$reservationName','$emailClient','$phonenumber')";
         $result = mysqli_query($con, $query);
 
+        echo "";
+
         $errors = [];
 
         if ($query) {
