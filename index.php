@@ -2,6 +2,8 @@
 // Require database in this file
 require_once 'includes/connection.php';
 
+$thankyou = "";
+
 // Check if form is posted
 if (isset($_POST['submit'])) {
     // Get form data
@@ -50,8 +52,6 @@ if (isset($_POST['submit'])) {
 
 // Check if form is posted
 if (isset($_POST["contactSubmit"])) {
-    $thankyou = "";
-
     //Get Form Data
     $name = mysqli_escape_string($con, $_POST['naam']);
     $emailSec = mysqli_escape_string($con, $_POST['emailSec']);
@@ -364,7 +364,7 @@ if (isset($_POST["contactSubmit"])) {
             <div class="row">
                 <div class='message'><?= "$thankyou" ?></div>
                 <div class="col-lg-6">
-                    <input type="text" name="naam" class="form-control" id="email" value="<?php if(isset($naam)){echo $naam;}?>" placeholder="Naam*">
+                    <input type="text" name="naam" class="form-control" id="email" value="<?php if(isset($name)){echo $name;}?>" placeholder="Naam*">
                     <span class="error"><?= isset($errormessage['naam']) ? $errormessage ['naam'] : ''; ?></span>
                 </div><!-- End col-lg-6 -->
                 <div class="col-lg-6">
@@ -375,13 +375,13 @@ if (isset($_POST["contactSubmit"])) {
 
             <div class="row">
                 <div class="col-lg-12">
-                    <input type="text" name="onderwerp" class="form-control" id="email" value="<?php if(isset($onderwerp)){echo $onderwerp;}?>" placeholder="Onderwerp*">
+                    <input type="text" name="onderwerp" class="form-control" id="email" value="<?php if(isset($subjectContactform)){echo $subjectContactform;}?>" placeholder="Onderwerp*">
                     <span class="error"><?= isset($errormessage['onderwerp']) ? $errormessage ['onderwerp'] : ''; ?></span>
                 </div>
             </div><!-- End row -->
             <div class="row">
                 <div class="col-lg-12">
-                    <input type="text" name="bericht" class="form-control" id="email" value="<?php if(isset($bericht)){echo $bericht;}?>" placeholder="Bericht*">
+                    <input type="text" name="bericht" class="form-control" id="email" value="<?php if(isset($messageContactform)){echo $messageContactform;}?>" placeholder="Bericht*">
                     <span class="error"><?= isset($errormessage['bericht']) ? $errormessage ['bericht'] : ''; ?></span>
                 </div>
             </div><!-- End row -->
