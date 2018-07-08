@@ -47,7 +47,7 @@ if (isset($_POST['submit'])) {
         $errors = [];
 
         if ($query) {
-            header("Location: index.php");
+            header("Location: reserveringen.php");
             exit;
         }
     }
